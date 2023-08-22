@@ -113,12 +113,14 @@ function main() {
     current_position.Y += tf_info_label_size.Heigth + 2;
 
     for(var i = 0; i < 7; i++) {
+        var day_group = [];
+
         var tf_day = add_textFrame(
             last_page, 
             tf_day_size, 
             data[i].day + '\r' + data[i].times_and_day_pressure, 
             current_position,
-            group_items);
+            day_group);
         tf_day.textFramePreferences.verticalJustification = VerticalJustification.CENTER_ALIGN;
         tf_day.paragraphs.everyItem().appliedParagraphStyle = paragraph_center;
         tf_day.paragraphs[0].fontStyle = "Bold";
@@ -129,7 +131,7 @@ function main() {
             tf_temperature_size, 
             "Ночью " + data[i].night_temp + "\rДнём " + data[i].day_temp, 
             current_position,
-            group_items);
+            day_group);
         tf_temperature.textFramePreferences.verticalJustification = VerticalJustification.CENTER_ALIGN;
         tf_temperature.paragraphs.everyItem().appliedParagraphStyle = paragraph_center;
         current_position.X += tf_temperature_size.Width;
@@ -139,7 +141,7 @@ function main() {
             tf_weather_size, 
             data[i].night_status + '\r' + data[i].day_status, 
             current_position,
-            group_items);
+            day_group);
         
         tf_weather.textFramePreferences.verticalJustification = VerticalJustification.CENTER_ALIGN;
         tf_weather.paragraphs.everyItem().appliedParagraphStyle = paragraph_center;
@@ -150,7 +152,7 @@ function main() {
             tf_wind_size, 
             data[i].night_wind + '\r' + data[i].day_wind, 
             current_position,
-            group_items);
+            day_group);
         tf_wind.textFramePreferences.verticalJustification = VerticalJustification.CENTER_ALIGN;
         tf_wind.paragraphs.everyItem().appliedParagraphStyle = paragraph_center;
         current_position.X = initial_position.X;
@@ -168,6 +170,8 @@ function main() {
             group_items.push(line);
             current_position.Y += 2;
         }
+        
+        last_page.groups.add(day_group);
     }
 
     var weather_frame = last_page.rectangles.add({
@@ -182,7 +186,7 @@ function main() {
     });
     group_items.push(weather_frame);
 
-    var group = last_page.groups.add(group_items);
+    last_page.groups.add(group_items);
 }
 
 main();
